@@ -56,6 +56,16 @@ const ToolbarToggleLabel = styled.span`
     `};
 `;
 
+const defaultButtons = [
+  'bold',
+  'italic',
+  'link',
+  'heading-two',
+  'heading-three',
+  'bulleted-list',
+  'numbered-list',
+];
+
 export default class Toolbar extends React.Component {
   static propTypes = {
     buttons: ImmutablePropTypes.list,
@@ -76,7 +86,7 @@ export default class Toolbar extends React.Component {
 
   isHidden = button => {
     const { buttons } = this.props;
-    return List.isList(buttons) ? !buttons.includes(button) : false;
+    return List.isList(buttons) ? !buttons.includes(button) : !defaultButtons.includes(button);
   };
 
   render() {
@@ -145,10 +155,19 @@ export default class Toolbar extends React.Component {
           <ToolbarButton
             type="heading-two"
             label="Header 2"
-            icon="h2"
+            icon={this.isHidden('heading-one') ? 'title' : 'heading-two'}
             onClick={onBlockClick}
             isActive={selectionHasBlock}
             isHidden={this.isHidden('heading-two')}
+            disabled={disabled}
+          />
+          <ToolbarButton
+            type="heading-three"
+            label="Header 3"
+            icon="subtitle"
+            onClick={onBlockClick}
+            isActive={selectionHasBlock}
+            isHidden={this.isHidden('heading-three')}
             disabled={disabled}
           />
           <ToolbarButton
